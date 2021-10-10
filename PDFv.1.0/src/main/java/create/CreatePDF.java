@@ -35,6 +35,7 @@ public class CreatePDF {
 
 BaseFont times = null;
 String name1,name2,name3,name4;
+String[] arrayHat;
 
 /**
  *  онструктор включает 4 параметра.
@@ -42,18 +43,19 @@ String name1,name2,name3,name4;
  * @param name2 - значение €чейки второго столбца
  * @param name3 - значение €чейки третьего столбца
  * @param name4 - значение €чейки четвертого столбца
+ * @param arrayHat - массив со значени€ми дл€ шапки таблицы
  * 
- * @exception Ўапка имеет стандартное заполнение
  * 
  * ќƒЌќ—“–ќ„Ќџ≈  ќћћ≈Ќ“ј–»» в конструкторе дают понимание, что делают те или иные строчки кода.
  * 
  */
 
-	public CreatePDF(String name1, String name2, String name3, String name4) { 
+	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat) { 
 		this.name1=name1;
 		this.name2=name2;
 		this.name3=name3;
 		this.name4=name4;
+		this.arrayHat=arrayHat;
 		
 		Document document = new Document(); //создание объекта Document
 		try {
@@ -159,7 +161,7 @@ String name1,name2,name3,name4;
 	}
 
 	private void addHeader(PdfPTable table) { //метод дл€ работы с шапкой таблицы
-		Stream.of("Ќомер", "√руппа", "‘»ќ", "ќценка") //поток с названи€ми дл€ шапки
+		Stream.of(arrayHat[0], arrayHat[1], arrayHat[2], arrayHat[3]) //поток с названи€ми дл€ шапки
 	      .forEach(columnTitle -> { //в цикле дл€ всех данных в потоке выше создаем €чейки, заносим названи€ и устанавливаем свойства €чейки 
 	        PdfPCell header = new PdfPCell(); //реализаци€ €чейки в таблице
 	        header.setBackgroundColor(BaseColor.LIGHT_GRAY);
