@@ -33,9 +33,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class CreatePDF {
 
-BaseFont times = null;
-String name1,name2,name3,name4;
-String[] arrayHat;
+private BaseFont times = null;
+private String name1,name2,name3,name4, Texthat, Textgeneral, Namefile;
+private URL Imagelink;
+private String[] arrayHat;
 
 /**
  * Конструктор включает 4 параметра.
@@ -44,40 +45,43 @@ String[] arrayHat;
  * @param name3 - значение ячейки третьего столбца
  * @param name4 - значение ячейки четвертого столбца
  * @param arrayHat - массив со значениями для шапки таблицы
+ * @param Texthat - текст для шапки страницы
+ * @param Textgeneral - общий текст на странице
+ * @param Imagelink - ссылка на рисунок
+ * @param Namefile - имя выводимого файла
+ * @param BaseFont - шрифт для вывода
  * 
  * 
  * ОДНОСТРОЧНЫЕ КОММЕНТАРИИ в конструкторе дают понимание, что делают те или иные строчки кода.
  * 
  */
 
-	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat) { 
+	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat, String Texthat, String Textgeneral, URL Imagelink, String Namefile, BaseFont BaseFontPDF) { 
 		this.name1=name1;
 		this.name2=name2;
 		this.name3=name3;
 		this.name4=name4;
 		this.arrayHat=arrayHat;
-		
+		this.Texthat=Texthat;
+		this.Textgeneral=Textgeneral;
+		this.Imagelink=Imagelink;
+		this.Namefile=Namefile;
+		this.times=BaseFontPDF;
+				
 		Document document = new Document(); //создание объекта Document
 		try {
-			PdfWriter.getInstance(document, new FileOutputStream("Check.pdf")); //выходной поток для создания PDF, а внутри создается поток записи с конкретным именем
+			PdfWriter.getInstance(document, new FileOutputStream(Namefile)); //выходной поток для создания PDF, а внутри создается поток записи с конкретным именем
 		} catch (FileNotFoundException | DocumentException e) { //Исключение когда файл не найден
 			e.printStackTrace();
 		}
 			
 		document.open(); //открытие для возможности записи
 		
-		
-		try {
-			times = BaseFont.createFont("/fonts/times.ttf", "cp1251", BaseFont.EMBEDDED);
-		} catch (DocumentException | IOException e) {
-			e.printStackTrace();
-		}
-		
-		String string_pdf = "Добрый день!";
+		String string_pdf = Texthat;
 		Paragraph paragraph = new Paragraph(); //создание объекта "параграф" для возможности записи данных в файл
 	    paragraph.add(new Paragraph(string_pdf, new Font(times,14)));
 	    
-	    String string_pdf2 = "Дополнительный текст, который выводится в PDF. При этом нужно понимать, что можно указывать значения, которые будут выводится в файл PDF.";
+	    String string_pdf2 =Textgeneral;
 	    paragraph.add(new Paragraph(string_pdf2, new Font(times,14)));
 	
 	    try {
@@ -88,7 +92,7 @@ String[] arrayHat;
 	    	
 	    
 	    //добавление изображения в pdf
-	    URL url = getClass().getResource("/picture/ugatu.png");
+	    URL url = Imagelink;
 	    Image img = null;
 		try {
 			img = Image.getInstance(url.toString());
@@ -142,16 +146,8 @@ String[] arrayHat;
 	}
 
 	private void addRows(PdfPTable table) {
-		
-		 //ниже дублирование кода (это можно устранить)
-        try {
-			times = BaseFont.createFont("/fonts/times.ttf", "cp1251", BaseFont.EMBEDDED);
-		} catch (DocumentException | IOException e) {
-			e.printStackTrace();
-		}
       //установка значения и шрифта для выводимого текста в ячейки
         
-		
 		table.addCell(new Phrase(name1, new Font(times,14)));
 	    table.addCell(new Phrase(name2, new Font(times,14)));;
 	    table.addCell(new Phrase(name3, new Font(times,14)));
@@ -166,12 +162,7 @@ String[] arrayHat;
 	        PdfPCell header = new PdfPCell(); //реализация ячейки в таблице
 	        header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 	        header.setBorderWidth(2);
-	        //ниже дублирование кода (это можно устранить)
-	        try {
-				times = BaseFont.createFont("/fonts/times.ttf", "cp1251", BaseFont.EMBEDDED);
-			} catch (DocumentException | IOException e) {
-				e.printStackTrace();
-			}
+
 			//установка значения и шрифта для выводимого текста в ячейки	        
 	        header.setPhrase(new Phrase(columnTitle,new Font(times,14)));
 	        table.addCell(header); 
