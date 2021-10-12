@@ -30,7 +30,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-
 public class CreatePDF {
 
 private BaseFont times = null;
@@ -55,7 +54,6 @@ private String[] arrayHat;
  * ОДНОСТРОЧНЫЕ КОММЕНТАРИИ в конструкторе дают понимание, что делают те или иные строчки кода.
  * 
  */
-
 	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat, String Texthat, String Textgeneral, URL Imagelink, String Namefile, BaseFont BaseFontPDF) { 
 		this.name1=name1;
 		this.name2=name2;
@@ -70,7 +68,7 @@ private String[] arrayHat;
 				
 		Document document = new Document(); //создание объекта Document
 		try {
-			PdfWriter.getInstance(document, new FileOutputStream(Namefile)); //выходной поток для создания PDF, а внутри создается поток записи с конкретным именем
+			PdfWriter.getInstance(document, new FileOutputStream(this.Namefile)); //выходной поток для создания PDF, а внутри создается поток записи с конкретным именем
 		} catch (FileNotFoundException | DocumentException e) { //Исключение когда файл не найден
 			e.printStackTrace();
 		}
@@ -90,7 +88,6 @@ private String[] arrayHat;
 			e1.printStackTrace();
 		}
 	    	
-	    
 	    //добавление изображения в pdf
 	    URL url = Imagelink;
 	    Image img = null;
@@ -117,7 +114,6 @@ private String[] arrayHat;
 				e.printStackTrace();
 			}
 	    
-	    
 		 //организация перехода на следующую строку
 		 paragraph.clear();
 		 String string_pdf3 = " ";
@@ -128,8 +124,7 @@ private String[] arrayHat;
 			} catch (DocumentException e1) {
 				e1.printStackTrace();
 			}
-		 
-		 
+
 	    //добавление таблицы
 		 PdfPTable table = new PdfPTable(4); //создание таблицы с 4 столбцами
 		 addHeader(table); //добавление заголовка (шапки таблицы)
@@ -140,9 +135,7 @@ private String[] arrayHat;
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
-		
 		document.close(); //закрытие и сохранение документа
-		
 	}
 
 	private void addRows(PdfPTable table) {
@@ -152,8 +145,6 @@ private String[] arrayHat;
 	    table.addCell(new Phrase(name2, new Font(times,14)));;
 	    table.addCell(new Phrase(name3, new Font(times,14)));
 	    table.addCell(new Phrase(name4, new Font(times,14)));
-		
-	    //выше должен быть текст на русском языке, как его вывести можно посмотреть в справке.
 	}
 
 	private void addHeader(PdfPTable table) { //метод для работы с шапкой таблицы

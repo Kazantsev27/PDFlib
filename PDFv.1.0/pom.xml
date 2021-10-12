@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>CreatePDF</groupId>
   <artifactId>PDFv.1.0</artifactId>
-  <version>v.1.0</version>
-  <name>PDFv.1.0</name>
+  <version>1.8</version>
+  <name>PDF</name>
   <description>PDFv.1.0 - with methods</description>
 <build>
    <finalName>CreatePDF</finalName>
