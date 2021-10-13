@@ -33,8 +33,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class CreatePDF {
 
 private BaseFont times = null;
-private String name1,name2,name3,name4, Texthat, Textgeneral, Namefile;
-private URL Imagelink;
+private String name1,name2,name3,name4, Namefile;
 private String[] arrayHat;
 
 /**
@@ -60,9 +59,6 @@ private String[] arrayHat;
 		this.name3=name3;
 		this.name4=name4;
 		this.arrayHat=arrayHat;
-		this.Texthat=Texthat;
-		this.Textgeneral=Textgeneral;
-		this.Imagelink=Imagelink;
 		this.Namefile=Namefile;
 		this.times=BaseFontPDF;
 				
