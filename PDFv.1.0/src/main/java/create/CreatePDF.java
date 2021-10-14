@@ -85,24 +85,7 @@ private String[] arrayHat;
 		}
 	    	
 	    //добавление изображения в pdf
-	    URL url = Imagelink;
-	    Image img = null;
-		try {
-			img = Image.getInstance(url.toString());
-			
-			
-		} catch (BadElementException e2) {
-			
-			e2.printStackTrace();
-		} catch (MalformedURLException e2) {
-			
-			e2.printStackTrace();
-		} catch (IOException e2) {
-			
-			e2.printStackTrace();
-		}
-		
-		img.setAbsolutePosition(90, 500); //позиционирование изображения в PDF
+	    Image img = addPicture(Imagelink);
 		
 		try {
 				document.add(img);
@@ -155,6 +138,30 @@ private String[] arrayHat;
 	        table.addCell(header); 
 	    });
 		
+	}
+	
+	private Image addPicture(URL url) {
+		//добавление изображения в pdf
+	    
+	    Image img = null;
+		try {
+			img = Image.getInstance(url.toString());
+			
+			
+		} catch (BadElementException e2) {
+			
+			e2.printStackTrace();
+		} catch (MalformedURLException e2) {
+			
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			
+			e2.printStackTrace();
+		}
+		
+		img.setAbsolutePosition(90, 500); //позиционирование изображения в PDF
+		return img;
+
 	}
 	
 }
