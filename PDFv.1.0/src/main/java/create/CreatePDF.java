@@ -147,20 +147,20 @@ private String[] arrayHat;
 		//добавление изображения в pdf
 	    
 	    Image img = null;
-		try {
-			img = Image.getInstance(url.toString());
-			
-			
-		} catch (BadElementException e2) {
-			
-			e2.printStackTrace();
-		} catch (MalformedURLException e2) {
-			
-			e2.printStackTrace();
-		} catch (IOException e2) {
-			
-			e2.printStackTrace();
-		}
+
+			try {
+				img = Image.getInstance(url.toString());
+			} catch (BadElementException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		
 		img.setAbsolutePosition(90, 500); //позиционирование изображения в PDF
 		return img;
