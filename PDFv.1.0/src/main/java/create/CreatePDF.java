@@ -76,7 +76,7 @@ private String[] arrayHat;
 		
 		String string_pdf = Texthat;
 		Paragraph paragraph = new Paragraph(); //создание объекта "параграф" для возможности записи данных в файл
-	    paragraph.add(new Paragraph(string_pdf, new Font(times,14)));
+	    paragraph.add(new Paragraph(string_pdf, new Font(times,20)));
 	    
 	    String string_pdf2 =Textgeneral;
 	    paragraph.add(new Paragraph(string_pdf2, new Font(times,14)));
@@ -135,19 +135,16 @@ private String[] arrayHat;
 	        PdfPCell header = new PdfPCell(); //реализация ячейки в таблице
 	        header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 	        header.setBorderWidth(2);
-
 			//установка значения и шрифта для выводимого текста в ячейки	        
 	        header.setPhrase(new Phrase(columnTitle,new Font(times,14)));
 	        table.addCell(header); 
 	    });
-		
 	}
 	
 	private Image addPicture(URL url) {
 		//добавление изображения в pdf
 	    
 	    Image img = null;
-
 			try {
 				img = Image.getInstance(url.toString());
 			} catch (BadElementException e) {
@@ -160,11 +157,8 @@ private String[] arrayHat;
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
-		
 		img.setAbsolutePosition(90, 500); //позиционирование изображения в PDF
 		return img;
 
 	}
-	
 }
