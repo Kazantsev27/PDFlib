@@ -6,6 +6,7 @@
  * 
  * Реализовано два метода для добавления шапки таблицы и строк таблицы (с заполнением данными).
  * 
+ * Библиотека основана на itextpdf
  */
 
 package create;
@@ -79,8 +80,7 @@ private String[] arrayHat;
 		Paragraph paragraph = new Paragraph(); //создание объекта "параграф" для возможности записи данных в файл
 	    paragraph.add(new Paragraph(Texthat, new Font(times,20)));
 	    
-	    String string_pdf2 =Textgeneral;
-	    paragraph.add(new Paragraph(string_pdf2, new Font(times,14)));
+	    paragraph.add(new Paragraph(Textgeneral, new Font(times,14)));
 	
 	    try {
 			document.add(paragraph);
@@ -149,13 +149,13 @@ private String[] arrayHat;
 			try {
 				img = Image.getInstance(url.toString());
 			} catch (BadElementException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		img.setAbsolutePosition(90, 500); //позиционирование изображения в PDF
