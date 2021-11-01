@@ -4,7 +4,7 @@
   <artifactId>PDFv.1.0</artifactId>
   <version>1.8</version>
   <name>PDF</name>
-  <description>PDFv.1.0 - with methods</description>
+  <description>PDFv.1.8 - with methods</description>
 <build>
    <finalName>CreatePDF</finalName>
   <defaultGoal>package</defaultGoal>

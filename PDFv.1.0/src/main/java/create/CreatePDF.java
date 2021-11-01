@@ -56,6 +56,8 @@ private String[] arrayHat;
  * Ќовые параметры будут представл€тьс€ структурой, котора€ направлена на позиционирование текста, таблиц и изображений в создаваемом PDF файле.
  * 
  */
+
+	//конструктор CreatePDF - 10 параметров
 	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat, String Texthat, String Textgeneral, URL Imagelink, String Namefile, BaseFont BaseFontPDF) { 
 		this.name1=name1;
 		this.name2=name2;
@@ -74,9 +76,8 @@ private String[] arrayHat;
 			
 		document.open(); //открытие дл€ возможности записи
 		
-		String string_pdf = Texthat;
 		Paragraph paragraph = new Paragraph(); //создание объекта "параграф" дл€ возможности записи данных в файл
-	    paragraph.add(new Paragraph(string_pdf, new Font(times,20)));
+	    paragraph.add(new Paragraph(Texthat, new Font(times,20)));
 	    
 	    String string_pdf2 =Textgeneral;
 	    paragraph.add(new Paragraph(string_pdf2, new Font(times,14)));
