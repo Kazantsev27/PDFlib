@@ -149,13 +149,10 @@ private String[] arrayHat;
 			try {
 				img = Image.getInstance(url.toString());
 			} catch (BadElementException e) {
-				
 				e.printStackTrace();
 			} catch (MalformedURLException e) {
-				
 				e.printStackTrace();
 			} catch (IOException e) {
-				
 				e.printStackTrace();
 			}
 		img.setAbsolutePosition(90, 500); //позиционирование изображения в PDF
