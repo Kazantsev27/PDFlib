@@ -23,7 +23,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 /**
  * <b> Класс реализующий создание и заполнение типового PDF файла. </b>
  * @author Kazantsev AV
- * @version 1.0
+ * @version 1.8
  * В классе один конструктор с 9 параметрами.
  * Библиотека основана на itextpdf.
  * 
@@ -161,9 +161,11 @@ public void getClose() {
  * Метод добавления картинки в PDF файл {@link CreatePDF}
  * @param url - ссылка на изображение
  * @param document - ссылка на создаваемый документ
+ * @param position1 - абсолютная позиция по оси X
+ * @param position2 - абсолютная позиция по оси Y
  */
 
-public void addPicture(URL url, Document document) {
+public void addPicture(URL url, Document document, int position1, int position2) {
 	//добавление изображения в pdf
 	
     Image img = null;
@@ -176,7 +178,7 @@ public void addPicture(URL url, Document document) {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	img.setAbsolutePosition(90, 500); //позиционирование изображения в PDF
+	img.setAbsolutePosition(position1, position2); //позиционирование изображения в PDF
 	
 	try {
 			document.add(img);
