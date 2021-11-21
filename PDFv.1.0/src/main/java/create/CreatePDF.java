@@ -48,7 +48,7 @@ private String[] arrayHat;
  * @param Textgeneral - общий текст на странице
  * @param Imagelink - ссылка на рисунок
  * @param Namefile - им€ выводимого файла
- * @param BaseFont - шрифт дл€ вывода
+ * @param BaseFontPDF - шрифт дл€ вывода
  * 
  * 
  * ќƒЌќ—“–ќ„Ќџ≈  ќћћ≈Ќ“ј–»» в конструкторе дают понимание, что делают те или иные строчки кода.
