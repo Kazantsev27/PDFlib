@@ -1,14 +1,3 @@
-/**
- * Класс реализующий создание и заполнение типового PDF файла.
- * @author Kazantsev
- * @version 1.0
- * В классе один конструктор с 10 параметрами.
- * 
- * Реализовано два метода для добавления шапки таблицы и строк таблицы (с заполнением данными).
- * 
- * Библиотека основана на itextpdf
- */
-
 package create;
 
 import java.io.FileNotFoundException;
@@ -31,14 +20,32 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+/**
+ * <b> Класс реализующий создание и заполнение типового PDF файла. </b>
+ * @author Kazantsev AV
+ * @version 1.0
+ * В классе один конструктор с 9 параметрами.
+ * Библиотека основана на itextpdf.
+ * 
+ * В одном из следующих обновлений будут объединены некоторые параметры, и добавлены некоторые новые параметры.
+ * Также будут реализованы некоторые дополнительные методы для удобства работы.
+ * Новые параметры будут представляться структурой, которая направлена на позиционирование текста, таблиц и изображений в создаваемом PDF файле.
+ * 
+ */
+
 public class CreatePDF {
 
+/** Поле базового используемого шрифта */
 private BaseFont times = null;
+/** Поля значений столбцов в таблице в PDF файле */
 private String name1,name2,name3,name4, Namefile;
+/** Поле со значениями шапки таблицы*/
 private String[] arrayHat;
 
+private Document document;
+
 /**
- * Конструктор включает 10 параметров.
+ * Конструктор - создание объекта с генерацией PDF
  * @param name1 - значение ячейки первого столбца
  * @param name2 - значение ячейки второго столбца
  * @param name3 - значение ячейки третьего столбца
@@ -46,20 +53,10 @@ private String[] arrayHat;
  * @param arrayHat - массив со значениями для шапки таблицы
  * @param Texthat - текст для шапки страницы
  * @param Textgeneral - общий текст на странице
- * @param Imagelink - ссылка на рисунок
  * @param Namefile - имя выводимого файла
  * @param BaseFontPDF - шрифт для вывода
- * 
- * 
- * ОДНОСТРОЧНЫЕ КОММЕНТАРИИ в конструкторе дают понимание, что делают те или иные строчки кода.
- * 
- * В одном из следующих обновлений будут объединены некоторые параметры, и добавлены некоторые новые параметры.
- * Новые параметры будут представляться структурой, которая направлена на позиционирование текста, таблиц и изображений в создаваемом PDF файле.
- * 
  */
-
-	//конструктор CreatePDF - 10 параметров
-	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat, String Texthat, String Textgeneral, URL Imagelink, String Namefile, BaseFont BaseFontPDF) { 
+	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat, String Texthat, String Textgeneral, String Namefile, BaseFont BaseFontPDF) { 
 		this.name1=name1;
 		this.name2=name2;
 		this.name3=name3;
@@ -68,7 +65,7 @@ private String[] arrayHat;
 		this.Namefile=Namefile;
 		this.times=BaseFontPDF;
 				
-		Document document = new Document(); //создание объекта Document
+		document = new Document(); //создание объекта Document
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream(this.Namefile)); //выходной поток для создания PDF, а внутри создается поток записи с конкретным именем
 		} catch (FileNotFoundException | DocumentException e) { //Исключение когда файл не найден
@@ -87,16 +84,7 @@ private String[] arrayHat;
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
-	    	
-	    //добавление изображения в pdf
-	    Image img = addPicture(Imagelink);
-		
-		try {
-				document.add(img);
-			} catch (DocumentException e) {
-				e.printStackTrace();
-			}
-	    
+
 		 //организация перехода на следующую строку
 		 paragraph.clear();
 		 String string_pdf3 = " ";
@@ -110,7 +98,7 @@ private String[] arrayHat;
 
 	    //добавление таблицы
 		 PdfPTable table = new PdfPTable(4); //создание таблицы с 4 столбцами
-		 addHeader(table); //добавление заголовка (шапки таблицы)
+		 setHeader(table); //задание заголовка (шапки таблицы)
 		 addRows(table); // добавление строк
 		 
 		 try {
@@ -118,10 +106,15 @@ private String[] arrayHat;
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
-		document.close(); //закрытие и сохранение документа
+		//document.close(); //закрытие и сохранение документа
 	}
 
-	private void addRows(PdfPTable table) {
+	/** 
+	 * Метод добавления строк в таблицу {@link CreatePDF}
+	 * @param table - таблица для заполнения
+	 */
+	
+private void addRows(PdfPTable table) {
       //установка значения и шрифта для выводимого текста в ячейки
         
 		table.addCell(new Phrase(name1, new Font(times,14)));
@@ -130,7 +123,12 @@ private String[] arrayHat;
 	    table.addCell(new Phrase(name4, new Font(times,14)));
 	}
 
-	private void addHeader(PdfPTable table) { //метод для работы с шапкой таблицы
+	/**
+	 * Метод заполнения шапки таблицы {@link CreatePDF}
+	 * @param table - таблица для заполнения
+	 */
+	
+private void setHeader(PdfPTable table) { //метод для работы с шапкой таблицы
 		Stream.of(arrayHat[0], arrayHat[1], arrayHat[2], arrayHat[3]) //поток с названиями для шапки
 	      .forEach(columnTitle -> { //в цикле для всех данных в потоке выше создаем ячейки, заносим названия и устанавливаем свойства ячейки 
 	        PdfPCell header = new PdfPCell(); //реализация ячейки в таблице
@@ -142,21 +140,49 @@ private String[] arrayHat;
 	    });
 	}
 	
-	private Image addPicture(URL url) {
-		//добавление изображения в pdf
-	    
-	    Image img = null;
-			try {
-				img = Image.getInstance(url.toString());
-			} catch (BadElementException e) {
-				e.printStackTrace();
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		img.setAbsolutePosition(90, 500); //позиционирование изображения в PDF
-		return img;
+/**
+ * Метод для получения ссылка на создаваемый документ.
+ * @return возваращет ссылку на создаваемый документ
+ */
+	
+public Document getDocument() {
+	return this.document;
+}
 
-	}
+/**
+ * Метод для закрытия и сохранения PDF файла.
+ */
+
+public void getClose() {
+	this.document.close();
+}
+
+/**
+ * Метод добавления картинки в PDF файл {@link CreatePDF}
+ * @param url - ссылка на изображение
+ * @param document - ссылка на создаваемый документ
+ */
+
+public void addPicture(URL url, Document document) {
+	//добавление изображения в pdf
+	
+    Image img = null;
+		try {
+			img = Image.getInstance(url.toString());
+		} catch (BadElementException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	img.setAbsolutePosition(90, 500); //позиционирование изображения в PDF
+	
+	try {
+			document.add(img);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+}
+
 }
