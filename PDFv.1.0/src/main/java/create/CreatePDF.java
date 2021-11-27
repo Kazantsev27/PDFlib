@@ -108,7 +108,11 @@ private void setHeader(PdfPTable table) { //метод для работы с шапкой таблицы
 	}
 	
 /**
+<<<<<<< HEAD
  * Метод для получения ссылка на создаваемый документ {@link CreatePDF}
+=======
+ * Метод для получения ссылки на создаваемый документ.
+>>>>>>> branch 'master' of https://github.com/Kazantsev27/PDFlib
  * @return возваращет ссылку на создаваемый документ
  */
 	
