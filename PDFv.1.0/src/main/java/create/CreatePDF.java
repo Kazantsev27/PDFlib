@@ -23,8 +23,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 /**
  * <b> Класс реализующий создание и заполнение типового PDF файла. </b>
  * @author Kazantsev AV
- * @version 1.8
- * В классе один конструктор с 9 параметрами.
+ * @version 1.9
+ * В классе один конструктор с 7 параметрами.
  * Библиотека основана на itextpdf.
  * 
  * В одном из следующих обновлений будут объединены некоторые параметры, и добавлены некоторые новые параметры.
@@ -56,7 +56,7 @@ private Document document;
  * @param Namefile - имя выводимого файла
  * @param BaseFontPDF - шрифт для вывода
  */
-	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat, String Texthat, String Textgeneral, String Namefile, BaseFont BaseFontPDF) { 
+	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat, String Namefile, BaseFont BaseFontPDF) { 
 		this.name1=name1;
 		this.name2=name2;
 		this.name3=name3;
@@ -73,40 +73,7 @@ private Document document;
 		}
 			
 		document.open(); //открытие для возможности записи
-		
-		Paragraph paragraph = new Paragraph(); //создание объекта "параграф" для возможности записи данных в файл
-	    paragraph.add(new Paragraph(Texthat, new Font(times,20)));
-	    
-	    paragraph.add(new Paragraph(Textgeneral, new Font(times,14)));
-	
-	    try {
-			document.add(paragraph);
-		} catch (DocumentException e1) {
-			e1.printStackTrace();
-		}
 
-		 //организация перехода на следующую строку
-		 paragraph.clear();
-		 String string_pdf3 = " ";
-		 paragraph.add(new Paragraph(string_pdf3, new Font(times,14)));
-		 
-		 try {
-				document.add(paragraph);
-			} catch (DocumentException e1) {
-				e1.printStackTrace();
-			}
-
-	    //добавление таблицы
-		 PdfPTable table = new PdfPTable(4); //создание таблицы с 4 столбцами
-		 setHeader(table); //задание заголовка (шапки таблицы)
-		 addRows(table); // добавление строк
-		 
-		 try {
-			document.add(table);
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		}
-		//document.close(); //закрытие и сохранение документа
 	}
 
 	/** 
@@ -141,7 +108,7 @@ private void setHeader(PdfPTable table) { //метод для работы с шапкой таблицы
 	}
 	
 /**
- * Метод для получения ссылка на создаваемый документ.
+ * Метод для получения ссылка на создаваемый документ {@link CreatePDF}
  * @return возваращет ссылку на создаваемый документ
  */
 	
@@ -150,7 +117,7 @@ public Document getDocument() {
 }
 
 /**
- * Метод для закрытия и сохранения PDF файла.
+ * Метод для закрытия и сохранения PDF файла {@link CreatePDF}
  */
 
 public void getClose() {
@@ -185,6 +152,43 @@ public void addPicture(URL url, Document document, int position1, int position2)
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
+}
+
+public void addText(Document document, String Text, int SizeFont ) {
+	Paragraph paragraph = new Paragraph(); //создание объекта "параграф" для возможности записи данных в файл
+    paragraph.add(new Paragraph(Text, new Font(times,SizeFont)));
+    
+    try {
+		document.add(paragraph);
+	} catch (DocumentException e1) {
+		e1.printStackTrace();
+	}
+    paragraph.clear();
+    
+    String string_pdf3 = " ";
+	 paragraph.add(new Paragraph(string_pdf3, new Font(times,14)));
+	 
+	 try {
+			document.add(paragraph);
+		} catch (DocumentException e1) {
+			e1.printStackTrace();
+		}
+    
+    paragraph=null;
+}
+
+public void addTable (Document document) {
+	
+	PdfPTable table = new PdfPTable(4); //создание таблицы с 4 столбцами
+	 setHeader(table); //задание заголовка (шапки таблицы)
+	 addRows(table); // добавление строк
+	 
+	 try {
+		document.add(table);
+	} catch (DocumentException e) {
+		e.printStackTrace();
+	}
+	
 }
 
 }
