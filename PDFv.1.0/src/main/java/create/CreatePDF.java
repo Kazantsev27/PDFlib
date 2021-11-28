@@ -21,13 +21,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 /**
- * <b> Класс реализующий создание и заполнение типового PDF файла. </b>
+ * <b> Класс реализующий создание и заполнение типового PDF файла.</b>
  * @author Kazantsev AV
  * @version 2.0
- * В классе один конструктор.
+ * В классе один конструктор c 4 параметрами и 5 методами.
  * Класс основан на библиотеки itextpdf.
  * 
- * 
+ * Для создания PDF файла необходимо создать экземпляр объекта CreatePDF и далее добавлять необходимые вставки (текст, рисунки и таблицы). После окончания добавления необходимо выполнить метод getClose, который закроет и сохранить PDF документ.
  * 
  */
 
@@ -179,7 +179,6 @@ public void addText(Document document, String Text, int SizeFont, boolean Space 
 /**
  * Метод добавления таблицы в PDF документ.
  * @param document - ссылка на создаваемый документ
- * @param SizeCell - указание количества столбцов в таблице (шапка не считается) 
  */
 
 public void addTable (Document document) {
