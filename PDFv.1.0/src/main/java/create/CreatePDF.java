@@ -23,13 +23,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 /**
  * <b> Класс реализующий создание и заполнение типового PDF файла. </b>
  * @author Kazantsev AV
- * @version 1.9
- * В классе один конструктор с 7 параметрами.
- * Библиотека основана на itextpdf.
+ * @version 2.0
+ * В классе один конструктор.
+ * Класс основан на библиотеки itextpdf.
  * 
- * В одном из следующих обновлений будут объединены некоторые параметры, и добавлены некоторые новые параметры.
- * Также будут реализованы некоторые дополнительные методы для удобства работы.
- * Новые параметры будут представляться структурой, которая направлена на позиционирование текста, таблиц и изображений в создаваемом PDF файле.
+ * 
  * 
  */
 
@@ -37,35 +35,29 @@ public class CreatePDF {
 
 /** Поле базового используемого шрифта */
 private BaseFont times = null;
-/** Поля значений столбцов в таблице в PDF файле */
-private String name1,name2,name3,name4, Namefile;
+/** Поле с именем создаваемого PDF файла */
+private String Namefile;
 /** Поле со значениями шапки таблицы*/
-private String[] arrayHat;
-
+private String[] arrayHat, NameCellHat;
+/** Поле с сслыкой на создаваеый документ */
 private Document document;
+/** Поле с количеством столбцов в таблице */
+private int Size;
 
 /**
  * Конструктор - создание объекта с генерацией PDF
- * @param name1 - значение ячейки первого столбца
- * @param name2 - значение ячейки второго столбца
- * @param name3 - значение ячейки третьего столбца
- * @param name4 - значение ячейки четвертого столбца
+ * @param NameCellHat - массив с названиями в шапке таблицы
  * @param arrayHat - массив со значениями для шапки таблицы
- * @param Texthat - текст для шапки страницы
- * @param Textgeneral - общий текст на странице
  * @param Namefile - имя выводимого файла
  * @param BaseFontPDF - шрифт для вывода
  */
-	public CreatePDF(String name1, String name2, String name3, String name4, String[] arrayHat, String Namefile, BaseFont BaseFontPDF) { 
-		this.name1=name1;
-		this.name2=name2;
-		this.name3=name3;
-		this.name4=name4;
+	public CreatePDF(String[] NameCellHat, String[] arrayHat, String Namefile, BaseFont BaseFontPDF) { 
+		this.NameCellHat=NameCellHat;
 		this.arrayHat=arrayHat;
 		this.Namefile=Namefile;
 		this.times=BaseFontPDF;
-				
-		document = new Document(); //создание объекта Document
+		this.Size=NameCellHat.length;
+		this.document = new Document(); //создание объекта Document
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream(this.Namefile)); //выходной поток для создания PDF, а внутри создается поток записи с конкретным именем
 		} catch (FileNotFoundException | DocumentException e) { //Исключение когда файл не найден
@@ -84,10 +76,9 @@ private Document document;
 private void addRows(PdfPTable table) {
       //установка значения и шрифта для выводимого текста в ячейки
         
-		table.addCell(new Phrase(name1, new Font(times,14)));
-	    table.addCell(new Phrase(name2, new Font(times,14)));;
-	    table.addCell(new Phrase(name3, new Font(times,14)));
-	    table.addCell(new Phrase(name4, new Font(times,14)));
+	for (int i=0; i<Size; i++) {
+		table.addCell(new Phrase(arrayHat[i], new Font(times,14)));
+	}
 	}
 
 	/**
@@ -96,23 +87,18 @@ private void addRows(PdfPTable table) {
 	 */
 	
 private void setHeader(PdfPTable table) { //метод для работы с шапкой таблицы
-		Stream.of(arrayHat[0], arrayHat[1], arrayHat[2], arrayHat[3]) //поток с названиями для шапки
-	      .forEach(columnTitle -> { //в цикле для всех данных в потоке выше создаем ячейки, заносим названия и устанавливаем свойства ячейки 
+	    	for (int i=0; i<Size; i++) {  
 	        PdfPCell header = new PdfPCell(); //реализация ячейки в таблице
 	        header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 	        header.setBorderWidth(2);
 			//установка значения и шрифта для выводимого текста в ячейки	        
-	        header.setPhrase(new Phrase(columnTitle,new Font(times,14)));
+	        header.setPhrase(new Phrase(NameCellHat[i],new Font(times,14)));
 	        table.addCell(header); 
-	    });
+	    }
 	}
 	
 /**
-<<<<<<< HEAD
  * Метод для получения ссылка на создаваемый документ {@link CreatePDF}
-=======
- * Метод для получения ссылки на создаваемый документ.
->>>>>>> branch 'master' of https://github.com/Kazantsev27/PDFlib
  * @return возваращет ссылку на создаваемый документ
  */
 	
@@ -137,8 +123,6 @@ public void getClose() {
  */
 
 public void addPicture(URL url, Document document, int position1, int position2) {
-	//добавление изображения в pdf
-	
     Image img = null;
 		try {
 			img = Image.getInstance(url.toString());
@@ -158,7 +142,15 @@ public void addPicture(URL url, Document document, int position1, int position2)
 		}
 }
 
-public void addText(Document document, String Text, int SizeFont ) {
+/**
+ * Метод добавления текста в PDF документ. Добавление происходит с начала документа.
+ * @param document - ссылка на создаваемый документ
+ * @param Text - задаваемый текст
+ * @param SizeFont - размер шрифта
+ * @param Space - указание требуется ли перейти на новую строку
+ */
+
+public void addText(Document document, String Text, int SizeFont, boolean Space ) {
 	Paragraph paragraph = new Paragraph(); //создание объекта "параграф" для возможности записи данных в файл
     paragraph.add(new Paragraph(Text, new Font(times,SizeFont)));
     
@@ -169,6 +161,8 @@ public void addText(Document document, String Text, int SizeFont ) {
 	}
     paragraph.clear();
     
+    if (Space) {
+    
     String string_pdf3 = " ";
 	 paragraph.add(new Paragraph(string_pdf3, new Font(times,14)));
 	 
@@ -177,15 +171,22 @@ public void addText(Document document, String Text, int SizeFont ) {
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
+    }
     
     paragraph=null;
 }
 
+/**
+ * Метод добавления таблицы в PDF документ.
+ * @param document - ссылка на создаваемый документ
+ * @param SizeCell - указание количества столбцов в таблице (шапка не считается) 
+ */
+
 public void addTable (Document document) {
 	
-	PdfPTable table = new PdfPTable(4); //создание таблицы с 4 столбцами
-	 setHeader(table); //задание заголовка (шапки таблицы)
-	 addRows(table); // добавление строк
+	PdfPTable table = new PdfPTable(Size);
+	setHeader(table); //задание заголовка (шапки таблицы)
+	addRows(table); // добавление строк
 	 
 	 try {
 		document.add(table);
