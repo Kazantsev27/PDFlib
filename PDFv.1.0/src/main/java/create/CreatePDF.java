@@ -155,7 +155,9 @@ public void addPicture(URL url, Document document, int position1, int position2)
 
 public void addText(Document document, String Text, int SizeFont, boolean Space ) {
 	Paragraph paragraph = new Paragraph(); //создание объекта "параграф" для возможности записи данных в файл
-    paragraph.add(new Paragraph(Text, new Font(times,SizeFont)));
+	Paragraph paragraphadd = new Paragraph(Text, new Font(times,SizeFont));
+	paragraphadd.setAlignment(com.itextpdf.text.Element.ALIGN_JUSTIFIED);
+    paragraph.add(paragraphadd);
     
     try {
 		document.add(paragraph);
