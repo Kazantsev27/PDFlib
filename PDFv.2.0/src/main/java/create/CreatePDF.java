@@ -29,21 +29,15 @@ import com.itextpdf.text.pdf.PdfWriter;
  * Для создания PDF файла необходимо создать экземпляр объекта CreatePDF и далее добавлять необходимые вставки (текст, рисунки и таблицы). После окончания добавления необходимо выполнить метод getClose, который закроет и сохранить PDF документ.
  * 
  */
-
 public class CreatePDF {
 
 /** Поле базового используемого шрифта */
 private BaseFont times = null;
 /** Поле с именем создаваемого PDF файла */
 private String Namefile;
-/** Поле со значениями шапки таблицы*/
-private String[] NameCellHat;
-private String[][] arrayCell;
 /** Поле с сслыкой на создаваемый документ */
 private Document document;
-/** Поле с количеством столбцов в таблице */
-private int Size,SizeCell;
-/** */
+/**Поле с ссылкой на создаваемую таблицу */
 private PdfPTable table;
 
 /**
@@ -61,40 +55,34 @@ private PdfPTable table;
 		} catch (FileNotFoundException | DocumentException e) { //Исключение когда файл не найден
 			e.printStackTrace();
 		}
-			
 		document.open(); //открытие для возможности записи
-
 	}
 
-	/** 
-	 * Метод добавления строк в таблицу
-	 * @param table - таблица для заполнения
-	 * @param arrayCell - двумерный массив со значения ячеек 
-	 */
-	
+/** 
+* Метод добавления строк в таблицу
+* @param table - таблица для заполнения
+* @param arrayCell - двумерный массив со значения ячеек 
+*/
 private void addRows(PdfPTable table, String[][] arrayCell) {
       //установка значения и шрифта для выводимого текста в ячейки
 	int SizeTwo = arrayCell.length; //количество строк
 	int SizeOne = arrayCell[0].length; //подразумеваем количество столбцов
 	
-   for (int j=0; j<SizeTwo; j++) {     
-	for (int i=0; i<SizeOne; i++) {
+    for (int j=0; j<SizeTwo; j++) {     
+	 for (int i=0; i<SizeOne; i++) {
 		table.addCell(new Phrase(arrayCell[j][i], new Font(times,14)));
-	}
-	}
+	}}
    }
 
-	/**
-	 * Метод заполнения шапки таблицы
-	 * @param table - таблица для заполнения
-	 */
-	
-private void setHeader(PdfPTable table, String[] NameCellHat) { //метод для работы с шапкой таблицы
+/**
+* Метод заполнения шапки таблицы
+* @param table - таблица для заполнения
+*/
+private void setHeader(PdfPTable table, String[] NameCellHat) {
 	    	for (int i=0; i<NameCellHat.length; i++) {  
 	        PdfPCell header = new PdfPCell(); //реализация ячейки в таблице
 	        header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-	        header.setBorderWidth(2);
-			//установка значения и шрифта для выводимого текста в ячейки	        
+	        header.setBorderWidth(2);	        
 	        header.setPhrase(new Phrase(NameCellHat[i],new Font(times,14)));
 	        table.addCell(header); 
 	    }
@@ -104,7 +92,6 @@ private void setHeader(PdfPTable table, String[] NameCellHat) { //метод для рабо
  * Метод для получения ссылка на создаваемый документ
  * @return возваращет ссылку на создаваемый документ
  */
-	
 public Document getDocument() {
 	return this.document;
 }
@@ -112,7 +99,6 @@ public Document getDocument() {
 /**
  * Метод для закрытия и сохранения PDF файла
  */
-
 public void getClose() {
 	this.document.close();
 }
@@ -124,7 +110,6 @@ public void getClose() {
  * @param position1 - абсолютная позиция по оси X
  * @param position2 - абсолютная позиция по оси Y
  */
-
 public void addPicture(URL url, Document document, int position1, int position2) {
     Image img = null;
 		try {
@@ -152,7 +137,6 @@ public void addPicture(URL url, Document document, int position1, int position2)
  * @param SizeFont - размер шрифта
  * @param Space - указание требуется ли перейти на новую строку
  */
-
 public void addText(Document document, String Text, int SizeFont, boolean Space ) {
 	Paragraph paragraph = new Paragraph(); //создание объекта "параграф" для возможности записи данных в файл
 	Paragraph paragraphadd = new Paragraph(Text, new Font(times,SizeFont));
@@ -177,7 +161,6 @@ public void addText(Document document, String Text, int SizeFont, boolean Space 
 			e1.printStackTrace();
 		}
     }
-    
     paragraph=null;
 }
 
@@ -186,19 +169,16 @@ public void addText(Document document, String Text, int SizeFont, boolean Space 
  * @param document - ссылка на создаваемый документ
  * @param NameCellHat - данные для шапки таблицы
  */
-
 public void InitTableAndAddHat (Document document, String[] NameCellHat) {
 	
 	table = new PdfPTable(NameCellHat.length);
-	setHeader(table,NameCellHat); //задание заголовка (шапки таблицы)
-	 
+	setHeader(table,NameCellHat);
 }
 
 /**
  * Метод получения ссылки на создаваемую таблицу, которую нужно наполнить (геттер).
  * @return возвращает ссылку на созданную таблицу
  */
-
 public PdfPTable getTable () {
 	return table;
 }
@@ -208,7 +188,6 @@ public PdfPTable getTable () {
  * @param Table - ссылка на создаваемую таблицу, которая получена методом {@link InitTableAndAddHat}
  * @param arrayCell - данные для строк в таблице (представляется в виде двумерного массива)
  */
-
 public void addRowsInTable(PdfPTable Table, String[][] arrayCell) {
 	addRows(Table, arrayCell);
 	
@@ -219,16 +198,10 @@ public void addRowsInTable(PdfPTable Table, String[][] arrayCell) {
  * @param document - ссылка на создаваемый документ
  * @param Table - ссылка на создаваемую таблицу, которая получена методом {@link InitTableAndAddHat}
  */
-
 public void addTable(Document document, PdfPTable Table) {
 	try {
 		document.add(Table);
 	} catch (DocumentException e) {
 		e.printStackTrace();
 	}
-	
-}
-
-
-
-}
+}}
